@@ -5,7 +5,7 @@ import { PlayersModule } from './players/players.module';
 @Module({
 	imports: [
 		MongooseModule.forRoot(
-			'mongodb+srv://vbrodrigues:221193@cluster0.ravlj.mongodb.net/ranking',
+			'mongodb+srv://<username>:<password>@<cluster>/ranking',
 			{
 				useNewUrlParser: true,
 				// useCreateIndex: true,
