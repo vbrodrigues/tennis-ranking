@@ -5,12 +5,12 @@ import { PlayersModule } from './players/players.module';
 @Module({
 	imports: [
 		MongooseModule.forRoot(
-			'mongodb+srv://<username>:<password>@<cluster>/ranking?retryWrites=true&w=majority',
+			'mongodb+srv://vbrodrigues:221193@cluster0.ravlj.mongodb.net/ranking',
 			{
 				useNewUrlParser: true,
-				useCreateIndex: true,
+				// useCreateIndex: true,
 				useUnifiedTopology: true,
-				useFindAndModify: false,
+				// useFindAndModify: false,
 			},
 		),
 		PlayersModule,
