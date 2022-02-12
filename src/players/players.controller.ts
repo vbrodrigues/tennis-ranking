@@ -13,6 +13,7 @@ import {
 import { CreatePlayerDTO } from './dtos/CreatePlayer.dto';
 import { UpdatePlayerDTO } from './dtos/UpdatePlayer.dto';
 import { Player } from './interfaces/player.interface';
+import PlayersParamValidationPipe from './pipes/playersParamValidation.pipe';
 import { PlayersService } from './players.service';
 
 @Controller('players')
@@ -25,26 +26,26 @@ export class PlayersController {
 		return await this.playersService.create(createPlayerDTO);
 	}
 
-	@Patch(':email')
+	@Patch(':player_id')
 	async update(
 		@Body() updatePlayerDTO: UpdatePlayerDTO,
-		@Param('email') email: string,
+		@Param('player_id') player_id: string,
 	): Promise<Player> {
-		return await this.playersService.update(email, updatePlayerDTO);
+		return await this.playersService.update(player_id, updatePlayerDTO);
 	}
 
 	@Get()
-	async find(@Query('email') email: string): Promise<Player[] | Player> {
-		return await this.playersService.list(email);
+	async findAll(): Promise<Player[]> {
+		return await this.playersService.findAll();
 	}
 
-	@Get(':player_id')
+	@Get('/:player_id')
 	async findById(@Param('player_id') player_id: string): Promise<Player> {
 		return await this.playersService.findById(player_id);
 	}
 
-	@Delete()
-	async remove(@Query('email') email: string): Promise<void> {
-		await this.playersService.remove(email);
+	@Delete('/:player_id')
+	async remove(@Param('player_id') player_id: string,): Promise<void> {
+		await this.playersService.remove(player_id);
 	}
 }
