@@ -7,6 +7,8 @@ import {
 	Patch,
 	Post,
 	Query,
+	UsePipes,
+	ValidationPipe,
 } from '@nestjs/common';
 import { CreatePlayerDTO } from './dtos/CreatePlayer.dto';
 import { UpdatePlayerDTO } from './dtos/UpdatePlayer.dto';
@@ -18,6 +20,7 @@ export class PlayersController {
 	constructor(private readonly playersService: PlayersService) { }
 
 	@Post()
+	@UsePipes(ValidationPipe)
 	async create(@Body() createPlayerDTO: CreatePlayerDTO): Promise<Player> {
 		return await this.playersService.create(createPlayerDTO);
 	}
