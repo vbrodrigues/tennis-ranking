@@ -1,7 +1,6 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { v4 as uuid } from 'uuid';
 import { CreatePlayerDTO } from './dtos/CreatePlayer.dto';
 import { UpdatePlayerDTO } from './dtos/UpdatePlayer.dto';
 import { Player } from './interfaces/player.interface';
@@ -12,8 +11,6 @@ export class PlayersService {
 	constructor(
 		@InjectModel('Player') private readonly playerModel: Model<Player>,
 	) { }
-
-	private readonly logger = new Logger(PlayersService.name);
 
 	async create(createPlayerDTO: CreatePlayerDTO): Promise<Player> {
 		const { email } = createPlayerDTO;

@@ -6,14 +6,12 @@ import {
 	Param,
 	Patch,
 	Post,
-	Query,
 	UsePipes,
 	ValidationPipe,
 } from '@nestjs/common';
 import { CreatePlayerDTO } from './dtos/CreatePlayer.dto';
 import { UpdatePlayerDTO } from './dtos/UpdatePlayer.dto';
 import { Player } from './interfaces/player.interface';
-import PlayersParamValidationPipe from './pipes/playersParamValidation.pipe';
 import { PlayersService } from './players.service';
 
 @Controller('players')
