@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreatePlayerDTO } from './dtos/CreatePlayer.dto';
@@ -50,7 +50,7 @@ export class PlayersService {
 		const player = this.playerModel.findById(player_id).exec();
 
 		if (!player) {
-			throw new BadRequestException('Player not found.');
+			throw new NotFoundException('Player not found.');
 		}
 
 		return await this.playerModel
@@ -62,7 +62,7 @@ export class PlayersService {
 		const player = await this.playerModel.findById(player_id).exec();
 
 		if (!player) {
-			throw new BadRequestException('Player not found.');
+			throw new NotFoundException('Player not found.');
 		}
 
 		return await this.playerModel.deleteOne({ _id: player_id }).exec();
