@@ -1,6 +1,8 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { PlayersService } from 'src/players/players.service';
+import { AddPlayerToCategoryDTO } from './dtos/AddPlayerToCategory.dto';
 import { CreateCategoryDTO } from './dtos/CreateCategory.dto';
 import { UpdateCategoryDTO } from './dtos/UpdateCategory.dto';
 import Category from './interfaces/category.interface';
@@ -8,7 +10,10 @@ import Category from './interfaces/category.interface';
 @Injectable()
 export class CategoriesService {
 
-    constructor(@InjectModel('Category') private readonly categoryModel: Model<Category>) { }
+    constructor(
+        @InjectModel('Category') private readonly categoryModel: Model<Category>,
+        private readonly playersService: PlayersService,
+    ) { }
 
     async create(createCategoryDTO: CreateCategoryDTO): Promise<Category> {
         const { category } = createCategoryDTO;
@@ -27,7 +32,7 @@ export class CategoriesService {
     }
 
     async list(): Promise<Category[]> {
-        return await this.categoryModel.find().exec();
+        return await this.categoryModel.find().populate('players').exec();
     }
 
     async findById(category_id: string): Promise<Category> {
@@ -58,5 +63,31 @@ export class CategoriesService {
         }
 
         return await this.categoryModel.deleteOne({ _id: category_id }).exec();
+    }
+
+    async addPlayerToCategory(addPlayerToCategoryDTO: AddPlayerToCategoryDTO): Promise<void> {
+        const { player_id, category } = addPlayerToCategoryDTO;
+
+        const categoryExists = await this.categoryModel.findOne({ category });
+
+        if (!categoryExists) {
+            throw new NotFoundException('Category not found.');
+        }
+
+        const playerAlreadyOnCategory = await this.categoryModel.find({ category }).where('players').equals(player_id).exec();
+
+        if (playerAlreadyOnCategory.length > 0) {
+            throw new BadRequestException('Player already added on category.');
+        }
+
+        const player = await this.playersService.findById(player_id);
+
+        if (!player) {
+            throw new NotFoundException('Player not found.');
+        }
+
+        categoryExists.players.push(player);
+
+        await this.categoryModel.findOneAndUpdate({ category }, { $set: categoryExists }).exec();
     }
 }
