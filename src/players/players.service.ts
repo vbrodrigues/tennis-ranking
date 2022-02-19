@@ -47,7 +47,7 @@ export class PlayersService {
 		player_id: string,
 		updatePlayerDTO: UpdatePlayerDTO,
 	): Promise<Player> {
-		const player = this.playerModel.findById(player_id).exec();
+		const player = await this.playerModel.findById(player_id).exec();
 
 		if (!player) {
 			throw new NotFoundException('Player not found.');
