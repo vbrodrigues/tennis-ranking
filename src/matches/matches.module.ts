@@ -11,6 +11,7 @@ import { MatchesService } from './matches.service';
     PlayersModule
   ],
   controllers: [MatchesController],
-  providers: [MatchesService]
+  providers: [MatchesService],
+  exports: [MatchesService]
 })
 export class MatchesModule { }

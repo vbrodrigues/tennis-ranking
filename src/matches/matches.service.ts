@@ -20,6 +20,10 @@ export class MatchesService {
             return await this.playersService.findById(player_id);
         }));
 
+        if (players.includes(null)) {
+            throw new NotFoundException('Player not found.');
+        }
+
         const match = new this.matchModel({ ...createMatchDTO, players });
 
         await match.save();
