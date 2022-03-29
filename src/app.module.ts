@@ -8,7 +8,7 @@ import { ChallengesModule } from './challenges/challenges.module';
 @Module({
 	imports: [
 		MongooseModule.forRoot(
-			'mongodb+srv://vbrodrigues:221193@cluster0.ravlj.mongodb.net/ranking',
+			'mongodb+srv://**@cluster0.ravlj.mongodb.net/ranking',
 			{
 				useNewUrlParser: true,
 				// useCreateIndex: true,
